@@ -1,0 +1,22 @@
+<!-- -->
+
+<!--xmlns="http: //www.w3.org/1999/xhtml"  ==> para dar belleeza a la pagina-->
+<!-- xmlns:sec="http ://www.thymeleaf.org/extras/spring-security"  ==> para capa de seguridad-->
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Plantilla</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header class="text-center bg-warning text-white py-4 mb-3" th:fragment="header"> <!-- un fragmento en cabecera-->
+            <h1>Crud spring</h1>
+        </header>
+
+        <footer class="bg-warning py-5 text-center" th:fragment="footer"><!-- un fragmento en footer-->
+            <p class="text-white m-0 bg-success d-inline-block px-2 py-1 rounded-4">pie de pagina</p>
+        </footer>
+    </body>
+</html>

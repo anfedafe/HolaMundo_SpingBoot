@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<!-- xmlns:th  => y desactivar html y es porque vamos a usar plantilla de thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlsn:sec="http://www.thymeleaf.org/extras/spring-security">
+        
+    <head>
+        <title>INICIO</title>
+        <meta charset="UTF-8">
+
+        <!-- BOOTSTRAP-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <header th:replace="plantilla/plantilla :: header"></header>
+
+        <div class="container d-flex justify-content-between mb-3">
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" th:href="@{/llamoVista}">Crear registro</a>
+            
+            <form method="POST" th:action="@{/logout}">
+                <a class="btn btn-danger" href="#" onclick="this.parentNode.submit();">Cerrar sesion</a>
+            </form>
+           
+        </div>
+        <main class="container mt-5">
+            <div th:if="${rgts != null and !rgts.empty }"> <!-- Evalua que la lista de
+                de controlador llamada registros, sea diferente a null o difente a vacio(empty)-->
+                <table  class="table">
+
+                    <thead class="table-success">
+                        <tr>    
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Telefono</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- en el tr el for es un operador ternario -->
+                        <tr th:each="pers: ${rgts}"> <!-- for que me recorra todos los datos de mi lista registros 
+                            estructura for => th : each = " iterador: ${nombreLista} " -->
+                            <td th:text="${pers.nombre}">Motrar nombre</td> <!-- (Motrar nombre) => es como si fuese un comentario -->
+                            <td th:text="${pers.apellido}">Motrar apellido</td>
+                            <td th:text="${pers.email}">Motrar email</td>
+                            <td th:text="${pers.telefono}">Motrar telefono</td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-success" th:href="@{/editar/} + ${pers.idpersona}">Editar</a></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger" th:href="@{/eliminar(idpersona=${pers.idpersona})}">Eliminar</a></td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div th:if="${rgts == null or rgts.empty }"><!-- aqui el else del if, evalua nuevamente pero 
+                    aqui ya se evalua si esta nula Ó vacia -->
+                    <p color="red">LISTA VACIA</p>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="plantilla/plantilla :: footer">
+
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+
+    </body>
+
+
+</html>
